@@ -14,5 +14,6 @@
     <h3><%= link_to "#{discount.name}", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}" %></h3>
     <u><%= "Percentage Discount:" %></u> <%= "#{discount.percentage_discount}%" %><br>
     <u><%= "Quantity Threshold:" %></u> <%= "at least #{discount.quantity_threshold} of any item" %>
+    <%= button_to "Delete", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete %>
   <% end %>
 </div>

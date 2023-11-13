@@ -84,7 +84,7 @@ RSpec.describe "merchant's bulk discounts index page" do
     expect(page).to have_button("Submit")
   end
 
-  it "creates a new bulk discount when I submit valid data in the fields" do
+  it "creates a new bulk discount when I submit valid data in the fields that shows up in the index page" do
     fill_in :name, with: 'Bulk Discount B'
     fill_in :percentage_discount, with: '50'
     fill_in :quantity_threshold, with: '20'

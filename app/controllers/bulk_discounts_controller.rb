@@ -20,7 +20,16 @@ class BulkDiscountsController < ApplicationController
       flash[:notice] = "This bulk discount was successfully saved!"
     else
       render :new
+      flash[:notice] = "This bulk discount could not be created :( Try again."
     end
+  end
+
+  def destroy
+    @merchant = Merchant.find(params[:merchant_id])
+    
+    BulkDiscount.find(params[:id]).destroy
+    redirect_to "/merchants/#{@merchant.id}/bulk_discounts"
+    flash[:notice] = "This bulk discount was successfully deleted!"
   end
 
   private
