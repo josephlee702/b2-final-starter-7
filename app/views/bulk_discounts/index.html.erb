@@ -12,8 +12,8 @@
 <div class="mr-auto col-sm-6">
   <% @merchant.bulk_discounts.each do |discount| %>
     <h3><%= link_to "#{discount.name}", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}" %></h3>
-    <u><%= "Percentage Discount:" %></u> <%= "#{discount.percentage_discount}%" %><br>
-    <u><%= "Quantity Threshold:" %></u> <%= "at least #{discount.quantity_threshold} of any item" %>
+    <strong><u>Percentage Discount</u>: </strong><%= "#{discount.percentage_discount}%" %><br>
+    <strong><u>Quantity Threshold</u>: </strong><%= "at least #{discount.quantity_threshold} of any item purchased" %>
     <%= button_to "Delete", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete %>
   <% end %>
 </div>

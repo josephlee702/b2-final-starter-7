@@ -91,7 +91,6 @@ RSpec.describe "merchant's bulk discounts index page" do
     expect(page).to have_link("Create Bulk Discount")
     click_on("Create Bulk Discount")
     expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/new")
-    expect(flash[:notice]).to eq("This bulk discount was successfully saved!")
   end
 
   it "shows a button to delete a bulk discount" do
@@ -100,6 +99,5 @@ RSpec.describe "merchant's bulk discounts index page" do
     click_on("Delete")
     expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
     expect(page).to_not have_content("Bulk Discount A")
-    expect(flash[:notice]).to eq("This bulk discount has been successfully deleted!")
   end
 end

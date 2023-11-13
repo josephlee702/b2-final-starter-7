@@ -4,8 +4,8 @@
   </div>
 
   <div id="current-bulk-discount">
-    <strong>Percentage Discount: </strong><%= @bulk_discount.percentage_discount %><br>
-    <strong>Quantity Threshold: </strong><%= @bulk_discount.quantity_threshold %>
+    <strong><u>Percentage Discount</u>: </strong><%= "#{@bulk_discount.percentage_discount}%" %><br>
+    <strong><u>Quantity Threshold</u>: </strong><%= "at least #{@bulk_discount.quantity_threshold} of any item purchased" %>
   </div>
   <br>
 
