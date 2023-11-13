@@ -5,13 +5,14 @@
     <p class='mr-auto'>My Bulk Discounts</p>
   </div>
 </div>
+<div class="line-up-text-fields">
+  <%= link_to "Create Bulk Discount", "/merchants/#{@merchant.id}/bulk_discounts/new" %>
+</div>
 
 <div class="mr-auto col-sm-6">
-  <ul>
-    <% @merchant.bulk_discounts.each do |discount| %>
-        <h3><%= link_to "#{discount.name}", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}" %></h3>
-        <u><%= "Percentage Discount:" %></u> <%= "#{discount.percentage_discount}%" %><br>
-        <u><%= "Quantity Threshold:" %></u> <%= "at least #{discount.quantity_threshold} of any item" %>
-    <% end %>
-  </ul>
+  <% @merchant.bulk_discounts.each do |discount| %>
+    <h3><%= link_to "#{discount.name}", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}" %></h3>
+    <u><%= "Percentage Discount:" %></u> <%= "#{discount.percentage_discount}%" %><br>
+    <u><%= "Quantity Threshold:" %></u> <%= "at least #{discount.quantity_threshold} of any item" %>
+  <% end %>
 </div>

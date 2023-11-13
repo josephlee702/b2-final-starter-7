@@ -41,7 +41,7 @@ RSpec.describe "merchant's bulk discounts index page" do
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_2.id)
     @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Bulk Discount A",percentage_discount: 20, quantity_threshold: 10)
 
-    visit merchant_bulk_discounts_path(@merchant1)
+    visit new_merchant_bulk_discount_path(@merchant1)
   end
 
   it "can see a link to my merchant dashboard" do
@@ -76,20 +76,24 @@ RSpec.describe "merchant's bulk discounts index page" do
     expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
   end
 
-  it "shows the merchant's bulk discounts" do
-    expect(page).to have_content(@merchant1.name)
-    expect(page).to have_content("My Bulk Discounts")
-    expect(page).to have_link(@bulk_discount1.name)
-    expect(page).to have_content("Percentage Discount: #{@bulk_discount1.percentage_discount}%")
-    expect(page).to have_content("Quantity Threshold: at least #{@bulk_discount1.quantity_threshold} of any item")
-
-    click_on(@bulk_discount1.name)
-    expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount1.id}")
+  it "shows a form to create a new bulk discount" do
+    expect(page).to have_content("Create a New Bulk Discount")
+    expect(page).to have_field(:name, type: 'text')
+    expect(page).to have_field(:percentage_discount, type: 'number')
+    expect(page).to have_field(:quantity_threshold, type: 'number')
+    expect(page).to have_button("Submit")
   end
 
-  it "shows a link to create a bulk discount" do
-    expect(page).to have_link("Create Bulk Discount")
-    click_on("Create Bulk Discount")
-    expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/new")
+  it "creates a new bulk discount when I submit valid data in the fields" do
+    fill_in :name, with: 'Bulk Discount B'
+    fill_in :percentage_discount, with: '50'
+    fill_in :quantity_threshold, with: '20'
+    click_on("Submit")
+
+    expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
+    expect(page).to have_content("Bulk Discount B")
+    expect(page).to have_content("Percentage Discount: 50%")
+    expect(page).to have_content("Quantity Threshold: at least 20 of any item")
   end
 end
+
