@@ -42,18 +42,26 @@ RSpec.describe "merchant's bulk discounts show page" do
 
     @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Bulk Discount A",percentage_discount: 20, quantity_threshold: 10)
 
-    visit merchant_bulk_discount_path(@bulk_discount1.merchant, @bulk_discount1)
+    visit edit_merchant_bulk_discount_path(@bulk_discount1.merchant, @bulk_discount1)
   end
 
-  it "should display the bulk discount's percentage discount and quantity threshold" do
-    expect(page).to have_content("Bulk Discount A")
-    expect(page).to have_content("Percentage Discount: 20%")
-    expect(page).to have_content("Quantity Threshold: at least 10 of any item purchased")
+  it "should show a form to edit a bulk discount" do
+    expect(page).to have_content("Edit '#{@bulk_discount1.name}'")
+    expect(page).to have_field(:name, type: 'text')
+    expect(page).to have_field(:percentage_discount, type: 'number')
+    expect(page).to have_field(:quantity_threshold, type: 'number')
+    expect(page).to have_button("Submit")
   end
 
-  it "should display the a link to edit the bulk discount that takes me to an edit form" do
-    expect(page).to have_content("Edit this bulk discount")
-    click_on("Edit this bulk discount")
-    expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount1.id}/edit")
+  it "should edit the details of the bulk discount, which is reflected in the index page" do
+    fill_in :name, with: 'Edited Bulk Discount'
+    fill_in :percentage_discount, with: '10'
+    fill_in :quantity_threshold, with: '10'
+    click_on("Submit")
+
+    expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
+    expect(page).to have_content("Edited Bulk Discount")
+    expect(page).to have_content("Percentage Discount: 10%")
+    expect(page).to have_content("Quantity Threshold: at least 10 of any item")
   end
 end
