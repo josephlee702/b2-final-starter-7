@@ -1,3 +1,5 @@
+<%= render partial: "shared/nav" %>
+
 <body>
   <div class="row">
     <p class='col-12'><%= @bulk_discount.name %></p>
@@ -5,7 +7,8 @@
 
   <div id="current-bulk-discount">
     <strong><u>Percentage Discount</u>: </strong><%= "#{@bulk_discount.percentage_discount}%" %><br>
-    <strong><u>Quantity Threshold</u>: </strong><%= "at least #{@bulk_discount.quantity_threshold} of any item purchased" %>
+    <strong><u>Quantity Threshold</u>: </strong><%= "at least #{@bulk_discount.quantity_threshold} of any item purchased" %><br><br>
+    <strong><%= link_to "Edit This Bulk Discount", "/merchants/#{@merchant.id}/bulk_discounts/#{@bulk_discount.id}/edit" %></strong>
   </div>
   <br>
 
