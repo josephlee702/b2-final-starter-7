@@ -10,8 +10,6 @@ RSpec.describe Item, type: :model do
   describe "relationships" do
     it { should belong_to :merchant }
     it { should have_many(:invoices).through(:invoice_items) }
-    it { should have_many :item_bulk_discounts}
-    it { should have_many(:bulk_discounts).through(:item_bulk_discounts) }
   end
   describe "instance methods" do
     it "best day" do

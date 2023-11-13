@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "merchant dashboard" do
+RSpec.describe "merchant's bulk discounts index page" do
   before :each do
     @merchant1 = Merchant.create!(name: "Hair Care")
 
@@ -39,12 +39,17 @@ RSpec.describe "merchant dashboard" do
     @transaction5 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @invoice_6.id)
     @transaction6 = Transaction.create!(credit_card_number: 879799, result: 1, invoice_id: @invoice_7.id)
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_2.id)
+    @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Bulk Discount A",percentage_discount: 20, quantity_threshold: 10)
 
-    visit merchant_dashboard_index_path(@merchant1)
+    visit merchant_bulk_discounts_path(@merchant1)
   end
 
-  it "shows the merchant name" do
-    expect(page).to have_content(@merchant1.name)
+  it "can see a link to my merchant dashboard" do
+    expect(page).to have_link("Dashboard")
+
+    click_link "Dashboard"
+
+    expect(current_path).to eq("/merchants/#{@merchant1.id}/dashboard")
   end
 
   it "can see a link to my merchant items index" do
@@ -63,66 +68,22 @@ RSpec.describe "merchant dashboard" do
     expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices")
   end
 
-  it "shows the names of the top 5 customers with successful transactions" do
-    within("#customer-#{@customer_1.id}") do
-      expect(page).to have_content(@customer_1.first_name)
-      expect(page).to have_content(@customer_1.last_name)
-
-      expect(page).to have_content(3)
-    end
-    within("#customer-#{@customer_2.id}") do
-      expect(page).to have_content(@customer_2.first_name)
-      expect(page).to have_content(@customer_2.last_name)
-      expect(page).to have_content(1)
-    end
-    within("#customer-#{@customer_3.id}") do
-      expect(page).to have_content(@customer_3.first_name)
-      expect(page).to have_content(@customer_3.last_name)
-      expect(page).to have_content(1)
-    end
-    within("#customer-#{@customer_4.id}") do
-      expect(page).to have_content(@customer_4.first_name)
-      expect(page).to have_content(@customer_4.last_name)
-      expect(page).to have_content(1)
-    end
-    within("#customer-#{@customer_5.id}") do
-      expect(page).to have_content(@customer_5.first_name)
-      expect(page).to have_content(@customer_5.last_name)
-      expect(page).to have_content(1)
-    end
-    expect(page).to have_no_content(@customer_6.first_name)
-    expect(page).to have_no_content(@customer_6.last_name)
-  end
-  it "can see a section for Items Ready to Ship with list of names of items ordered and ids" do
-    within("#items_ready_to_ship") do
-
-      expect(page).to have_content(@item_1.name)
-      expect(page).to have_content(@item_1.invoice_ids)
-
-      expect(page).to have_content(@item_2.name)
-      expect(page).to have_content(@item_2.invoice_ids)
-
-      expect(page).to have_no_content(@item_3.name)
-      expect(page).to have_no_content(@item_3.invoice_ids)
-    end
-  end
-
-  it "each invoice id is a link to my merchant's invoice show page " do
-    expect(page).to have_link("#{@item_1.invoice_ids}")
-    expect(page).to have_link("#{@item_2.invoice_ids}")
-    expect(page).to_not have_link("#{@item_3.invoice_ids}")
-
-    click_link("#{@item_1.invoice_ids}", match: :first)
-    expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@invoice_1.id}")
-  end
-
-  it "shows the date that the invoice was created in this format: Monday, July 18, 2019" do
-    expect(page).to have_content(@invoice_1.created_at.strftime("%A, %B %-d, %Y"))
-  end
-
-  it "shows the merchant's bulk discounts that takes me to the bulk discounts index page" do 
+  it "can see a link to my merchant bulk discounts" do
     expect(page).to have_link("My Discounts")
-    click_on("My Discounts")
+
+    click_link "My Discounts"
+
     expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
+  end
+
+  it "shows the merchant's bulk discounts" do
+    expect(page).to have_content(@merchant1.name)
+    expect(page).to have_content("My Bulk Discounts")
+    expect(page).to have_link(@bulk_discount1.name)
+    expect(page).to have_content("Percentage Discount: #{@bulk_discount1.percentage_discount}%")
+    expect(page).to have_content("Quantity Threshold: at least #{@bulk_discount1.quantity_threshold} of any item")
+
+    click_on(@bulk_discount1.name)
+    expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount1.id}")
   end
 end
