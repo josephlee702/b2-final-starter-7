@@ -19,9 +19,10 @@ class BulkDiscountsController < ApplicationController
     if @new_bulk_discount.save
       redirect_to "/merchants/#{@merchant.id}/bulk_discounts"
       flash[:notice] = "This bulk discount was successfully saved!"
-    else
-      render :new
-      flash[:notice] = "This bulk discount could not be created :( Try again."
+    # potential sad path but don't know what would cause this to not save honestly
+    # else
+    #   render :new
+    #   flash[:notice] = "This bulk discount could not be created :( Try again."
     end
   end
 

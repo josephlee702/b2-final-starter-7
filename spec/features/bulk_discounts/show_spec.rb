@@ -52,8 +52,8 @@ RSpec.describe "merchant's bulk discounts show page" do
   end
 
   it "should display the a link to edit the bulk discount that takes me to an edit form" do
-    expect(page).to have_content("Edit this bulk discount")
-    click_on("Edit this bulk discount")
+    expect(page).to have_content("Edit This Bulk Discount")
+    click_on("Edit This Bulk Discount")
     expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount1.id}/edit")
   end
 end
