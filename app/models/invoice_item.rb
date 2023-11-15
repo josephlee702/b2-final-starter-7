@@ -20,7 +20,7 @@ class InvoiceItem < ApplicationRecord
   
   def discount_applied
     sql_query = <<-SQL
-      SELECT big_table.name, big_table.percentage_discount
+      SELECT big_table.name, big_table.percentage_discount, big_table.quantity_threshold
       FROM (
         SELECT "invoice_items".*, bulk_discounts.*
         FROM "invoice_items"
@@ -32,7 +32,7 @@ class InvoiceItem < ApplicationRecord
       ORDER BY big_table.percentage_discount DESC
     SQL
     
-    results = InvoiceItem.find_by_sql(sql_query).first.name
+    results = InvoiceItem.find_by_sql(sql_query).first
     results
   end
 end
