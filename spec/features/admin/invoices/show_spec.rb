@@ -124,8 +124,7 @@ describe "user story 8" do
 
     @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Bulk Discount A", percentage_discount: 10, quantity_threshold: 10)
     
-    require 'pry'; binding.pry
-    visit admin_invoice_path(@merchant1, @invoice_1)
+    visit "/merchants/#{@merchant1.id}/invoices/#{@invoice_1.id}"
 
     expect(page).to have_content("Total Discounted Revenue: $#{@invoice_1.total_discounted_revenue}")
   end
