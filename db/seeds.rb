@@ -6,7 +6,7 @@
 # #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 # #   Character.create(name: "Luke", movie: movies.first)
 
-Rake::Task["csv_load:all"].invoke
+# Rake::Task["csv_load:all"].invoke
 
 @merchant1 = Merchant.create!(name: "Hair Care")
 
@@ -31,6 +31,7 @@ Rake::Task["csv_load:all"].invoke
 @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice_3.id)
 
 @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Bulk Discount A", percentage_discount: 20, quantity_threshold: 10)
+@bulk_discount2 = @merchant1.bulk_discounts.create!(name: "Bulk Discount B", percentage_discount: 50, quantity_threshold: 10)
 
 # @merchant1 = Merchant.create!(name: 'Hair Care')
 # @item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: @merchant1.id, status: 1)

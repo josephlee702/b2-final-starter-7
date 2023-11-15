@@ -52,6 +52,7 @@ RSpec.describe "invoices show" do
     @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
 
     @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Bulk Discount A", percentage_discount: 10, quantity_threshold: 10)
+    @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Bulk Discount B", percentage_discount: 50, quantity_threshold: 10)
   end
 
   it "shows the invoice information" do
@@ -105,5 +106,12 @@ RSpec.describe "invoices show" do
     visit merchant_invoice_path(@merchant1, @invoice_1)
 
     expect(page).to have_content("Total Discounted Revenue: $#{@invoice_1.total_discounted_revenue}")
+  end
+
+  it "shows the applied discount next to each item (if any)" do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+
+    expect(page).to have_content("Applied Discount")
+    expect(page).to have_content("Bulk Discount B")
   end
 end
